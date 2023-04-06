@@ -38,39 +38,35 @@
  */
 
 int main(int argc, char **argv){
-	int 				sockfd_recv = 0, sockfd_send = 0;
-	struct sockaddr_ll 	sa; //socket
-	socklen_t 			address_len = sizeof(sa);
+	int sockfd_recv = 0, sockfd_send = 0;
+	struct sockaddr_ll sa; //socket
+	socklen_t address_len = sizeof(sa);
 
-	struct ifreq 		req,
-						req_mac,
-						req_ip;
+	struct ifreq req, req_mac, req_ip;
 
-	struct ether_addr 	Src_haddr, // source hardware address
-						Dst_haddr, // destinaiotn hardware address
-						Arp_Src_haddr, // ARP source hardware address
-						Arp_Dst_haddr; // ARP destination hardware address
+	struct ether_addr Src_haddr; // source hardware address 
+	struct ether_addr Dst_haddr; // destinaiotn hardware address
+	struct ether_addr Arp_Src_haddr; // ARP source hardware address
+	struct ether_addr Arp_Dst_haddr; // ARP destination hardware address
 
-	struct arp_packet 	arp_packet_send,
-						arp_packet_recv;
+	struct arp_packet arp_packet_send, arp_packet_recv;
 
-	u_int8_t 			arp_packetS[PACKET_SIZE];
-	u_int8_t 			arp_packetR[PACKET_SIZE];
-	u_int8_t			Unknown_Mac_Addr[ETH_HALEN]={0x00,0x00,0x00,0x00,0x00,0x00};
+	u_int8_t arp_packetS[PACKET_SIZE];
+	u_int8_t arp_packetR[PACKET_SIZE];
+	u_int8_t Unknown_Mac_Addr[ETH_HALEN]={0x00,0x00,0x00,0x00,0x00,0x00};
 
-	int 			recv_length,send_length;
+	int recv_length,send_length;
 
-	char 			tell_ip[32],
-					has_ip[32],
-					recv_SIPA[32], // source IP address
-					recv_SHWA[32], // source hardware address
-					recv_TIPA[32]; // target IP address
+	char tell_ip[32], has_ip[32];
+	char recv_SIPA[32]; // source IP address
+	char recv_SHWA[32]; // source hardware address
+	char recv_TIPA[32]; // target IP address
 
-	unsigned char 	Source_MAC[ETH_ALEN],Source_IP[ETH_ALEN];
-	unsigned char 	Target_IP[30];
-	unsigned char 	Source_MAC_Addr[ETH_ALEN];
-	in_addr_t       Arp_Src_IP,Arp_Dst_IP;
-	struct in_addr 	myip;
+	unsigned char Source_MAC[ETH_ALEN],Source_IP[ETH_ALEN];
+	unsigned char Target_IP[30];
+	unsigned char Source_MAC_Addr[ETH_ALEN];
+	in_addr_t Arp_Src_IP,Arp_Dst_IP;
+	struct in_addr myip;
 
 	//determine the login identity
 	if(geteuid() != 0){
